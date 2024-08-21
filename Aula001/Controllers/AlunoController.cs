@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Aula001.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Aula001.Controllers
 {
@@ -6,19 +7,50 @@ namespace Aula001.Controllers
     [Route("api/aluno")]
     public class AlunoController : ControllerBase
     {
-        [HttpGet]
-        [Route("Saudacao")]
-        public IActionResult Saudacao()
+        private static List<Aluno> listaAlunos = new List<Aluno>();
+
+        [HttpPost]
+        [Route("CriarAluno")]
+
+        public IActionResult CriarAluno (Aluno novoAluno)
         {
-            return Ok("Olá mundo");
+            listaAlunos.Add(novoAluno);
+            return Ok("Aluno Criado com sucesso!");
         }
 
+        [HttpGet]
+        [Route("ObterTodos")]
+        public IActionResult ObterTodos()
+        {
+            return Ok(listaAlunos);
+        }
 
         [HttpGet]
+        [Route("ObterPorCpf")]
+        public IActionResult ObterPorCpf(string cpfBusca)
+        {
+            var resultadoBusca = listaAlunos
+                                .Where(aluno => aluno.Cpf == cpfBusca)
+                                .FirstOrDefault();
+            if (resultadoBusca is null)
+                return NotFound($"O cpf {cpfBusca} não encontrado");
+                return Ok(resultadoBusca);
+        }
+
+        /*[HttpGet]
         [Route("SaudacaoNome")]
         public IActionResult SaudacaoNome(string nome)
         {
-            return Ok("$Olá mundo {nome}");
+            return Ok($"Olá mundo {nome}");
         }
+
+        [HttpPost]
+        [Route("CriarAluno")]
+        public IActionResult CriarAluno(Aluno aluno)
+        {
+            //depois vamos colocar aqui uma ação para um SD
+            listaAlunos.Add(novoAluno);
+            return Ok("Aluno Criado com sucesso!");
+        }*/
     }
 }
