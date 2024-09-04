@@ -14,6 +14,11 @@ namespace Aula001.Controllers
 
         public IActionResult CriarAluno (Aluno novoAluno)
         {
+            if (ModelState.IsValid) 
+            { 
+                BadRequest(ModelState);
+            }
+            
             listaAlunos.Add(novoAluno);
             return Ok("Aluno Criado com sucesso!");
         }
@@ -55,7 +60,8 @@ namespace Aula001.Controllers
 
         [HttpGet]
         [Route("Atualizar/{cpfBusca}")]
-        public IActionResult Atualizar(string cpfBusca, Aluno alunoAtualizado)
+        public IActionResult Atualizar(string cpfBusca, 
+                                                        Aluno alunoAtualizado)
         {
             Aluno? resultadoBusca = listaAlunos
                                 .Where(aluno => aluno.Cpf == cpfBusca)
@@ -67,6 +73,10 @@ namespace Aula001.Controllers
 
             resultadoBusca.Nome = alunoAtualizado.Nome;
             resultadoBusca.Idade = alunoAtualizado.Idade;
+
+            return Ok("Atualizado");
+
+
         }
 
         /*[HttpGet]
