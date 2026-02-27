@@ -2,7 +2,7 @@
 
 namespace WebApplication1.Validations
 {
-	public class MaioridadeValidation : ValidationAttribute
+	public class TicketValidation : ValidationAttribute
 	{
 		protected override ValidationResult? IsValid(Object? value, ValidationContext validationContext)
 		{
@@ -11,9 +11,9 @@ namespace WebApplication1.Validations
 				return new ValidationResult(ErrorMessage);
 			}
 
-			int idade = (int)value;
+			int ticket = (int)value;
 
-			return idade >= 18 ? ValidationResult.Success : new  ValidationResult(ErrorMessage);
+			return ticket >= 18 ? ValidationResult.Success : new  ValidationResult(ErrorMessage);
 		}
 	}
 }
